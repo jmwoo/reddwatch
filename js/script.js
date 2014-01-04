@@ -1,13 +1,15 @@
 function PostCtrl($scope, $http, $sce) {
   var mfmt = 'YYYY-MM-DD h:mm:ss a';
-  var subr = 'javascript';
+  $scope.subreddit = '';
   var totalPosts = 0;
   var seenUrls = [];
   $scope.posts = [];
+  var interval;
+  var timeout;
 
   var get = function () {
-    console.log('querying...');
-    $http.get('http://www.reddit.com/r/' + subr + '/new.json')
+    console.log('querying...' + $scope.subreddit);
+    $http.get('http://www.reddit.com/r/' + $scope.subreddit + '/new.json')
       .success(function (data) {
         data.data.children.forEach(function (child) {
           var post = child.data;
@@ -31,27 +33,39 @@ function PostCtrl($scope, $http, $sce) {
       });
   };
 
-  $scope.remaining = function () {
-    return $scope.posts.length;
-  };
-
   $scope.checkClick = function () {
-    console.log(this);
+    console.log('check clicked!');
   };
 
   var readyPost = function (post) {
     // add a readable timestamp from the epoch
     post.timestamp = moment.unix(post.created_utc).format(mfmt);
 
-    // unescape and clean raw html
     if (post.selftext_html) {
+      // replace relative links with absolute links
       post.selftext_html = post.selftext_html.replace(/href="\//g, 'href="http://www.reddit.com/');
     }
+
+    // unescape and clean raw html
     post.trustedHtml = $sce.trustAsHtml(_.unescape(post.selftext_html));
 
     return post;
   };
 
-  get();
-  setInterval(get, 30 * 1000);
+  $scope.srtext_change = function () {
+    console.log('new subreddit is ' + $scope.subreddit);
+    $scope.posts = [];
+    startRequesting();
+  };
+
+  var startRequesting = function () {
+    if ($scope.subreddit) {
+      clearTimeout(timeout);
+      timeout = setTimeout(get, 3 * 1000);
+      clearInterval(interval);
+      interval = setInterval(get, 30 * 1000);
+    }
+  };
+
+  startRequesting();
 }
