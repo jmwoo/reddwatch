@@ -13,12 +13,16 @@ function PostCtrl($scope, $http) {
           var post = child.data;
           if (!_.contains(seenUrls, post.url)) {
             console.log('found new post at ' + moment().format(mfmt));
-            console.log(post);
             totalPosts += 1;
             post.timestamp = moment.unix(post.created_utc).format(mfmt);
-            post.postNum = totalPosts;
             $scope.posts.push(post);
             seenUrls.push(post.url);
+          } else {
+            var postIndex = _.findIndex($scope.posts, {'url': post.url});
+            if (postIndex >= 0) {
+              post.timestamp = moment.unix(post.created_utc).format(mfmt);
+              $scope.posts[postIndex] = post;
+            }
           }
         });
       })
@@ -31,6 +35,10 @@ function PostCtrl($scope, $http) {
     return $scope.posts.length;
   };
 
+  $scope.checkClick = function () {
+    console.log('checkbox clicked!');
+  };
+
   get();
-  setInterval(get, 30 * 1000);
+  setInterval(get, 10 * 1000);
 }
