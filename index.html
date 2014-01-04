@@ -24,7 +24,8 @@
               <br />{{post.score}} points, <a ng-href="http://www.reddit.com{{post.permalink}}"> {{post.num_comments}} comments </a>
               <br />
               <a ng-href="http://www.reddit.com/u/{{post.author}}"> {{post.author}} </a> {{post.author_flair_text}}
-              <br />{{post.selftext}}
+              <br />
+              <div ng-bind-html="post.trustedHtml"> </div>
               <hr />
             </div>
           </li>

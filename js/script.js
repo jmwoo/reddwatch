@@ -1,4 +1,4 @@
-function PostCtrl($scope, $http) {
+function PostCtrl($scope, $http, $sce) {
   var mfmt = 'YYYY-MM-DD h:mm:ss a';
   var subr = 'programming';
   var totalPosts = 0;
@@ -14,13 +14,13 @@ function PostCtrl($scope, $http) {
           if (!_.contains(seenUrls, post.url)) {
             console.log('found new post at ' + moment().format(mfmt));
             totalPosts += 1;
-            post.timestamp = moment.unix(post.created_utc).format(mfmt);
+            post = readyPost(post);
             $scope.posts.push(post);
             seenUrls.push(post.url);
           } else {
             var postIndex = _.findIndex($scope.posts, {'url': post.url});
             if (postIndex >= 0) {
-              post.timestamp = moment.unix(post.created_utc).format(mfmt);
+              post = readyPost(post);
               $scope.posts[postIndex] = post;
             }
           }
@@ -36,9 +36,15 @@ function PostCtrl($scope, $http) {
   };
 
   $scope.checkClick = function () {
-    console.log('checkbox clicked!');
+    console.log(this);
+  };
+
+  var readyPost = function (post) {
+    post.timestamp = moment.unix(post.created_utc).format(mfmt);
+    post.trustedHtml = $sce.trustAsHtml(post.selftext_html);
+    return post;
   };
 
   get();
-  setInterval(get, 10 * 1000);
+  setInterval(get, 30 * 1000);
 }
