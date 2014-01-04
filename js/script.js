@@ -40,8 +40,15 @@ function PostCtrl($scope, $http, $sce) {
   };
 
   var readyPost = function (post) {
+    // add a readable timestamp from the epoch
     post.timestamp = moment.unix(post.created_utc).format(mfmt);
+
+    // unescape and clean raw html
+    if (post.selftext_html) {
+      post.selftext_html = post.selftext_html.replace(/href="\//g, 'href="http://www.reddit.com/');
+    }
     post.trustedHtml = $sce.trustAsHtml(_.unescape(post.selftext_html));
+
     return post;
   };
 
