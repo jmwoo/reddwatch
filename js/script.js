@@ -5,7 +5,6 @@ function PostCtrl($scope, $http, $sce) {
   var seenUrls = [];
   $scope.posts = [];
   var interval;
-  var timeout;
 
   var get = function () {
     console.log('querying...' + $scope.subreddit);
@@ -52,16 +51,17 @@ function PostCtrl($scope, $http, $sce) {
     return post;
   };
 
-  $scope.srtext_change = function () {
-    console.log('new subreddit is ' + $scope.subreddit);
-    $scope.posts = [];
-    startRequesting();
-  };
+  $scope.sr_keypress = function (ev) {
+    console.log('keypress');
+    if (ev.which === 13) {
+      $scope.posts = [];
+      startRequesting();
+    }
+  }
 
   var startRequesting = function () {
     if ($scope.subreddit) {
-      clearTimeout(timeout);
-      timeout = setTimeout(get, 3 * 1000);
+      get();
       clearInterval(interval);
       interval = setInterval(get, 30 * 1000);
     }
