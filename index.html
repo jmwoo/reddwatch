@@ -13,9 +13,8 @@
     <div class="header">
     </div>
     <div ng-controller="PostCtrl">
-    <h1> 
-      quering for new posts in /r/{{subreddit}} <br />
-      <input type="text" ng-model="subreddit" ng-change="srtext_change()" />
+    <h1>
+      /r/<input type="text" ng-model="subreddit" ng-change="srtext_change()" />/
     </h1>
       <ol reversed>
         <div ng-repeat="post in posts | orderBy:'created_utc':true">
