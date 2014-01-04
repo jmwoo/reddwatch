@@ -1,6 +1,6 @@
 function PostCtrl($scope, $http, $sce) {
   var mfmt = 'YYYY-MM-DD h:mm:ss a';
-  var subr = 'programming';
+  var subr = 'javascript';
   var totalPosts = 0;
   var seenUrls = [];
   $scope.posts = [];
@@ -41,7 +41,7 @@ function PostCtrl($scope, $http, $sce) {
 
   var readyPost = function (post) {
     post.timestamp = moment.unix(post.created_utc).format(mfmt);
-    post.trustedHtml = $sce.trustAsHtml(post.selftext_html);
+    post.trustedHtml = $sce.trustAsHtml(_.unescape(post.selftext_html));
     return post;
   };
 
