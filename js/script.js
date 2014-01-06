@@ -7,28 +7,22 @@ function PostCtrl($scope, $http, $sce) {
   $scope.posts = [];
   var interval;
 
-  var get = function () {
+  var get = function (url, isNew) {
     numRequests += 1;
-    var url = 'http://www.reddit.com/r/' + $scope.subreddit + '/new.json';
-    console.log('querying ' + url + ' for the ' + numRequests.toString() + suffix(numRequests).toString() + ' time');
+    console.log('querying ' + url + ' at ' + moment().format(mfmt));
     $http.get(url)
       .success(function (data) {
         data.data.children.forEach(function (child) {
           var post = child.data;
           post = readyPost(post);
-
-          // if we've already seen it, update the post in the view, else push new post in view
-          if (!_.contains(seenUrls, post.url)) {
-            console.log('found new post at ' + moment().format(mfmt));
-            totalPosts += 1;
-            $scope.posts.push(post);
-            seenUrls.push(post.url);
+          var postIndex = _.findIndex($scope.posts, {
+            'url': post.url
+          });
+          if (postIndex >= 0) {
+            $scope.posts[postIndex] = post;
           } else {
-            var postIndex = _.findIndex($scope.posts, {
-              'url': post.url
-            });
-            if (postIndex >= 0) {
-              $scope.posts[postIndex] = post;
+            if (isNew) {
+              $scope.posts.push(post);
             }
           }
         });
@@ -36,6 +30,18 @@ function PostCtrl($scope, $http, $sce) {
       .error(function (data) {
         console.log('error getting json');
       });
+
+    // if (isNew) {
+    //   // request /rising 10 seconds from now
+    //   setTimeout(function () {
+    //     get('http://www.reddit.com/r/' + $scope.subreddit + '/rising.json', false)
+    //   }, 10 * 1000);
+
+    //   // request /hot 20 seconds from now
+    //   setTimeout(function () {
+    //     get('http://www.reddit.com/r/' + $scope.subreddit + '.json', false)
+    //   }, 20 * 1000);
+    // }
   };
 
   $scope.checkClick = function () {
@@ -68,6 +74,7 @@ function PostCtrl($scope, $http, $sce) {
   }
 
   var reset = function () {
+    console.log('reseting');
     $scope.posts = [];
     totalPosts = 0;
     numRequests = 0;
@@ -76,9 +83,14 @@ function PostCtrl($scope, $http, $sce) {
 
   var startRequesting = function () {
     if ($scope.subreddit) {
-      get();
+      get('http://www.reddit.com/r/' + $scope.subreddit + '/new.json', true);
+
       clearInterval(interval);
-      interval = setInterval(get, 30 * 1000);
+
+      // begin requesting /new every 30 seconds
+      interval = setInterval(function () {
+        get('http://www.reddit.com/r/' + $scope.subreddit + '/new.json', true);
+      }, 30 * 1000);
     }
   };
 
