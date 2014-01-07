@@ -13,14 +13,14 @@
     <div class="container">
       <div class="header">
         /r/
-        <input type="text" ng-model="subreddit" ng-keypress="sr_keypress($event)" />
+        <input type="text" ng-model="subreddit" ng-keypress="sr_keypress($event)" /> {{seenUrls.length}}
       </div>
 
       <ol reversed>
         <div ng-repeat="post in posts | orderBy:'created_utc':true">
           <li>
             <div id="post">
-              <input type="checkbox" ng-click="checkClick()">&nbsp;{{post.timestamp}}
+              <input type="checkbox" ng-click="checkClick($event, post.url)">&nbsp;{{post.timestamp}}
               <br />
               <a ng-href="{{post.url}}"> {{post.title}} </a>
               <br />{{post.score}} points, <a ng-href="http://www.reddit.com{{post.permalink}}"> {{post.num_comments}} comments </a>

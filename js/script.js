@@ -3,7 +3,7 @@ function PostCtrl($scope, $http, $sce) {
   $scope.subreddit = '';
   var totalPosts = 0;
   var numRequests = 0;
-  var seenUrls = [];
+  $scope.seenUrls = [];
   $scope.posts = [];
   var interval;
 
@@ -22,7 +22,10 @@ function PostCtrl($scope, $http, $sce) {
             $scope.posts[postIndex] = post;
           } else {
             if (isNew) {
-              $scope.posts.push(post);
+              if (!_.contains($scope.seenUrls, post.url)) {
+                $scope.posts.push(post);
+                $scope.seenUrls.push(post.url);
+              }
             }
           }
         });
@@ -44,8 +47,10 @@ function PostCtrl($scope, $http, $sce) {
     // }
   };
 
-  $scope.checkClick = function () {
-    console.log('check clicked!');
+  $scope.checkClick = function (ev, post_url) {
+    $scope.posts = _.filter($scope.posts, function (post) {
+      return post.url !== post_url;
+    });
   };
 
   var readyPost = function (post) {
@@ -71,20 +76,19 @@ function PostCtrl($scope, $http, $sce) {
       reset();
       startRequesting();
     }
-  }
+  };
 
   var reset = function () {
     console.log('reseting');
     $scope.posts = [];
     totalPosts = 0;
     numRequests = 0;
-    seenUrls = [];
+    $scope.seenUrls = [];
   };
 
   var startRequesting = function () {
     if ($scope.subreddit) {
       get('http://www.reddit.com/r/' + $scope.subreddit + '/new.json', true);
-
       clearInterval(interval);
 
       // begin requesting /new every 30 seconds
