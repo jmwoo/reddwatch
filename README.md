@@ -1,4 +1,4 @@
 reddwatch
 =========
 
-watch for new posts in a subreddit in near real-time
+watch for new/hot posts from reddit in near real-time
