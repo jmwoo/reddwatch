@@ -13,7 +13,7 @@
     <div class="container">
       <div class="header">
         /r/
-        <input type="text" ng-model="subreddit" ng-keypress="sr_keypress($event)" /> {{seenUrls.length}}
+        <input type="text" ng-model="subreddit" ng-keypress="sr_keypress($event)" />{{seenUrls.length}}
       </div>
 
       <ol reversed>
@@ -23,9 +23,9 @@
               <input type="checkbox" ng-click="checkClick($event, post.url)">&nbsp;{{post.timestamp}}
               <br />
               <a ng-href="{{post.url}}"> {{post.title}} </a>
-              <br />{{post.score}} points, <a ng-href="http://www.reddit.com{{post.permalink}}"> {{post.num_comments}} comments </a>
-              <br />
-              <a ng-href="http://www.reddit.com/u/{{post.author}}"> {{post.author}} </a> {{post.author_flair_text}}
+              <br />{{post.score}} points, <a ng-href="http://www.reddit.com{{post.permalink}}"> {{post.num_comments}} comments </a> by
+              <a ng-href="http://www.reddit.com/u/{{post.author}}"> {{post.author}} </a> {{post.author_flair_text}} in
+              <a ng-href="http://www.reddit.com/r/{{post.subreddit}}"> /r/{{post.subreddit}}</a>
               <br />
               <div ng-bind-html="post.trustedHtml"></div>
               <hr />

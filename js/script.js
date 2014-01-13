@@ -67,6 +67,10 @@ function PostCtrl($scope, $http, $sce) {
 
     post.title = _.unescape(post.title);
 
+    if (post.author_flair_text) {
+      post.author_flair_text = '(' + post.author_flair_text + ')';
+    }
+
     return post;
   };
 
@@ -88,13 +92,13 @@ function PostCtrl($scope, $http, $sce) {
 
   var startRequesting = function () {
     if ($scope.subreddit) {
-      get('http://www.reddit.com/r/' + $scope.subreddit + '/new.json', true);
+      get('http://www.reddit.com/r/' + $scope.subreddit + '/hot.json', true);
       clearInterval(interval);
 
-      // begin requesting /new every 30 seconds
+      // begin requesting every 30 seconds
       interval = setInterval(function () {
-        get('http://www.reddit.com/r/' + $scope.subreddit + '/new.json', true);
-      }, 30 * 1000);
+        get('http://www.reddit.com/r/' + $scope.subreddit + '/hot.json', true);
+      }, 60 * 1000);
     }
   };
 
