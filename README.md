@@ -1,4 +1,6 @@
 reddwatch
 =========
 
-get new/hot posts from reddit immediately pushed to your browser in near real-time
+This is a tool for getting reddit posts pushed to your browser moments after they are submitted.
+
+It's built entirely client side with angular.js and no manual DOM manipulation.
