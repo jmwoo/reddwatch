@@ -26,13 +26,9 @@ function PostCtrl($scope, $http, $sce) {
           });
           if (postIndex >= 0) {
             $scope.posts[postIndex] = post;
-          } else {
-            if (isNew) {
-              if (!_.contains($scope.seenUrls, post.url)) {
-                $scope.posts.push(post);
-                $scope.seenUrls.push(post.url);
-              }
-            }
+          } else if (isNew && !_.contains($scope.seenUrls, post.url)) {
+            $scope.posts.push(post);
+            $scope.seenUrls.push(post.url);
           }
         });
       })
