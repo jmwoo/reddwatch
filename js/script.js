@@ -86,7 +86,7 @@ function PostCtrl($scope, $http, $sce) {
   };
 
   var reset = function () {
-    console.log('reseting');
+    console.log('resetting');
     $scope.posts = [];
     totalPosts = 0;
     numRequests = 0;
