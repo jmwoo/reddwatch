@@ -1,5 +1,4 @@
 function PostCtrl($scope, $http, $sce) {
-  var mfmt = 'YYYY-MM-DD h:mm:ss a';
   $scope.subreddit = '';
   var totalPosts = 0;
   var numRequests = 0;
@@ -15,7 +14,7 @@ function PostCtrl($scope, $http, $sce) {
 
   var get = function (url, isNew) {
     numRequests += 1;
-    console.log('querying ' + url + ' at ' + moment().format(mfmt));
+    console.log('querying ' + url + ' at ' + moment().format('YYYY-MM-DD h:mm:ss a'));
     $http.get(url)
       .success(function (data) {
         data.data.children.forEach(function (child) {
@@ -56,8 +55,10 @@ function PostCtrl($scope, $http, $sce) {
   };
 
   var readyPost = function (post) {
-    // add a readable timestamp from the epoch
-    post.timestamp = moment.unix(post.created_utc).format(mfmt);
+    // add a date and time from the epoch
+    var amoment = moment.unix(post.created_utc);
+    post.date = amoment.format('YYYY-MM-DD');
+    post.time = amoment.format('h:mm:ss a');
 
     if (post.selftext_html) {
       // replace relative links with absolute links
