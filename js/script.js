@@ -105,9 +105,4 @@ function PostCtrl($scope, $http, $sce) {
       }, 60 * 1000);
     }
   };
-
-  var suffix = function (n) {
-    n = n % 10;
-    return n > 3 ? 'th' : ['th', 'st', 'nd', 'rd'][n];
-  };
 }
