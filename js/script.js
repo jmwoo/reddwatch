@@ -6,6 +6,12 @@ function PostCtrl($scope, $http, $sce) {
   $scope.seenUrls = [];
   $scope.posts = [];
   var interval;
+  $scope.queryOptions = [{
+    "name": "hot"
+  }, {
+    "name": "new"
+  }];
+  $scope.queryOption = $scope.queryOptions[0];
 
   var get = function (url, isNew) {
     numRequests += 1;
@@ -92,12 +98,13 @@ function PostCtrl($scope, $http, $sce) {
 
   var startRequesting = function () {
     if ($scope.subreddit) {
-      get('http://www.reddit.com/r/' + $scope.subreddit + '/hot.json', true);
+      var url = 'http://www.reddit.com/r/' + $scope.subreddit + '/' + $scope.queryOption.name + '.json';
+      get(url, true);
       clearInterval(interval);
 
       // begin requesting every 30 seconds
       interval = setInterval(function () {
-        get('http://www.reddit.com/r/' + $scope.subreddit + '/hot.json', true);
+        get(url, true);
       }, 60 * 1000);
     }
   };
