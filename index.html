@@ -26,8 +26,8 @@
               <input type="checkbox" ng-click="checkClick($event, post.url)">&nbsp;<a ng-href="{{post.url}}"> {{post.title}} </a>
               <br />{{post.score}} points, <a ng-href="http://www.reddit.com{{post.permalink}}"> {{post.num_comments}} comments </a> by
               <a ng-href="http://www.reddit.com/u/{{post.author}}"> {{post.author}} </a> {{post.author_flair_text}} in
-              <a ng-href="http://www.reddit.com/r/{{post.subreddit}}"> /r/{{post.subreddit}}</a> on
-              {{post.date}} at {{post.time}}
+              <a ng-href="http://www.reddit.com/r/{{post.subreddit}}"> /r/{{post.subreddit}}</a> on {{post.date}} at {{post.time}}
+              <br />
               <br />
               <div ng-bind-html="post.trustedHtml"></div>
               <hr />
