@@ -2,6 +2,7 @@ function PostCtrl($scope, $http, $sce) {
   $scope.subreddit = '';
   var totalPosts = 0;
   var numRequests = 0;
+  var validImgExts = ['jpg', 'jpeg', 'jpg?1', 'png', 'gif'];
   $scope.seenUrls = [];
   $scope.posts = [];
   var interval;
@@ -54,6 +55,10 @@ function PostCtrl($scope, $http, $sce) {
     });
   };
 
+  $scope.toggleImg = function (ev, post) {
+    post.isImgToggled = !post.isImgToggled;
+  };
+
   var readyPost = function (post) {
     // add a date and time from the epoch
     var amoment = moment.unix(post.created_utc);
@@ -74,6 +79,9 @@ function PostCtrl($scope, $http, $sce) {
       post.author_flair_text = '(' + post.author_flair_text + ')';
     }
 
+    post.isImg = isImg(post);
+    post.isImgToggled = false;
+
     return post;
   };
 
@@ -84,6 +92,14 @@ function PostCtrl($scope, $http, $sce) {
       startRequesting();
     }
   };
+
+  var isImg = function (post) {
+    var urlsplit = post.url.split('.');
+    var urlext = urlsplit[urlsplit.length - 1].toLowerCase();
+    return _.any(validImgExts, function (ext) {
+      return ext === urlext;
+    });
+  }
 
   var reset = function () {
     console.log('resetting');
