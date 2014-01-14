@@ -17,13 +17,17 @@
         <select ng-model="queryOption" ng-options="o.name for o in queryOptions">
         </select>
         {{seenUrls.length}}
+        <br />
       </div>
 
       <ol reversed>
         <div ng-repeat="post in posts | orderBy:'created_utc':true">
           <li>
             <div id="post">
-              <input type="checkbox" ng-click="checkClick($event, post.url)">&nbsp;<a ng-href="{{post.url}}"> {{post.title}} </a>
+              <button type="button" ng-click="closeClick($event, post.url)" class="btn btn-default btn-xs">
+                <span class="glyphicon glyphicon-remove"></span>
+              </button>
+              &nbsp;<a ng-href="{{post.url}}"> {{post.title}} </a>
               <br />{{post.score}} points, <a ng-href="http://www.reddit.com{{post.permalink}}"> {{post.num_comments}} comments </a> by
               <a ng-href="http://www.reddit.com/u/{{post.author}}"> {{post.author}} </a> {{post.author_flair_text}} in
               <a ng-href="http://www.reddit.com/r/{{post.subreddit}}"> /r/{{post.subreddit}}</a> on {{post.date}} at {{post.time}}

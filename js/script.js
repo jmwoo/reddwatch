@@ -48,7 +48,7 @@ function PostCtrl($scope, $http, $sce) {
     // }
   };
 
-  $scope.checkClick = function (ev, post_url) {
+  $scope.closeClick = function (ev, post_url) {
     $scope.posts = _.filter($scope.posts, function (post) {
       return post.url !== post_url;
     });
