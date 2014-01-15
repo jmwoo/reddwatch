@@ -6,7 +6,7 @@ function PostCtrl($scope, $http, $sce) {
   $scope.seenUrls = [];
   $scope.posts = [];
   $scope.isLoading = false;
-  var queryIntervalSecs = 15;
+  var queryIntervalSecs = 60;
   var interval;
   $scope.queryOptions = [
      {'name': 'hot'}
