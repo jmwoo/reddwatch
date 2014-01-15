@@ -2,10 +2,15 @@ a:link {
   color: blue;
 }
 
-.header {
+#header {
   font-size: 14pt;
   padding-bottom: 10px;
   padding-top: 10px;
+}
+
+#footer {
+  margin-bottom: 10px;
+  margin-top: 10px;
 }
 
 .pic {
