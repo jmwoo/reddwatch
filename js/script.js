@@ -56,6 +56,10 @@ function PostCtrl($scope, $http, $sce) {
     });
   };
 
+  $scope.toggleTxt = function(ev, post) {
+    post.isTxtToggled = !post.isTxtToggled;
+  };
+
   $scope.toggleImg = function (ev, post) {
     post.isImgToggled = !post.isImgToggled;
   };
@@ -82,6 +86,7 @@ function PostCtrl($scope, $http, $sce) {
 
     post.isImg = isImg(post);
     post.isImgToggled = false;
+    post.isTxtToggled = false;
 
     return post;
   };

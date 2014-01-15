@@ -32,11 +32,21 @@
               <a ng-href="http://www.reddit.com/u/{{post.author}}"> {{post.author}} </a> {{post.author_flair_text}} in
               <a ng-href="http://www.reddit.com/r/{{post.subreddit}}"> /r/{{post.subreddit}}</a> on {{post.date}} at {{post.time}}
               <br />
-              <div ng-bind-html="post.trustedHtml"></div>
+
+              <!-- post text -->
+              <div ng-show="post.trustedHtml">
+                <button type="button" class="btn btn-default btn-xs" ng-click="toggleTxt($event, post)">
+                  <span ng-class="{true: 'glyphicon glyphicon-minus-sign', false: 'glyphicon glyphicon-font'}[post.isTxtToggled]"></span>
+                </button>
+                <div ng-show="post.isTxtToggled">
+                  <div ng-bind-html="post.trustedHtml"></div>
+                </div>
+              </div>
+
               <!-- image viewer -->
               <div ng-show="post.isImg">
                 <button type="button" class="btn btn-default btn-xs" ng-click="toggleImg($event, post)">
-                  <span ng-class="{true: 'glyphicon glyphicon-minus-sign', false: 'glyphicon glyphicon-plus-sign'}[post.isImgToggled]"></span>
+                  <span ng-class="{true: 'glyphicon glyphicon-minus-sign', false: 'glyphicon glyphicon-picture'}[post.isImgToggled]"></span>
                 </button>
                 <br />
                 <div ng-show="post.isImgToggled">
