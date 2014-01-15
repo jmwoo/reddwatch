@@ -14,14 +14,19 @@
       <div class="header">
         /r/
         <input type="text" ng-model="subreddit" ng-keypress="sr_keypress($event)" />
+        category:
         <select ng-model="queryOption" ng-options="o.name for o in queryOptions">
         </select>
+        sort by:
+        <select ng-model="sortOption" ng-options="o.name for o in sortOptions">
+        </select>
+        total viewed:
         {{seenUrls.length}}
         <br />
       </div>
 
       <ol reversed>
-        <div ng-repeat="post in posts | orderBy:'created_utc':true">
+        <div ng-repeat="post in posts | orderBy:sortOption.value:true">
           <li>
             <div id="post">
               <button type="button" ng-click="closeClick($event, post.url)" class="btn btn-default btn-xs">
@@ -43,7 +48,7 @@
                 </div>
               </div>
 
-              <!-- image viewer -->
+              <!-- post picture -->
               <div ng-show="post.isImg">
                 <button type="button" class="btn btn-default btn-xs" ng-click="toggleImg($event, post)">
                   <span ng-class="{true: 'glyphicon glyphicon-minus-sign', false: 'glyphicon glyphicon-picture'}[post.isImgToggled]"></span>
@@ -55,6 +60,7 @@
                   </a>
                 </div>
               </div>
+
               <hr />
             </div>
           </li>
