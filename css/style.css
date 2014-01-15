@@ -4,9 +4,15 @@ a:link {
 
 .header {
   font-size: 14pt;
+  padding-bottom: 10px;
+  padding-top: 10px;
 }
 
 .pic {
   max-width: 640px;
   max-height: 480px;
+}
+
+#subreddit {
+  padding-bottom: 10px;
 }
