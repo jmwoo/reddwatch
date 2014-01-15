@@ -5,6 +5,7 @@ function PostCtrl($scope, $http, $sce) {
   var validImgExts = ['jpg', 'jpeg', 'jpg?1', 'png', 'gif'];
   $scope.seenUrls = [];
   $scope.posts = [];
+  $scope.isLoading = false;
   var queryIntervalSecs = 60;
   var interval;
   $scope.queryOptions = [
@@ -21,10 +22,12 @@ function PostCtrl($scope, $http, $sce) {
   $scope.sortOption = $scope.sortOptions[0];
 
   var get = function (url, isNew) {
+    $scope.isLoading = true;
     numRequests += 1;
     console.log('querying ' + url + ' at ' + moment().format('YYYY-MM-DD h:mm:ss a'));
     $http.get(url)
       .success(function (data) {
+        $scope.isLoading = false;
         data.data.children.forEach(function (child) {
           var post = child.data;
           post = readyPost(post);
@@ -41,6 +44,7 @@ function PostCtrl($scope, $http, $sce) {
       })
       .error(function (data) {
         console.log('error getting json');
+        $scope.isLoading = false;
       });
 
     // if (isNew) {

@@ -12,16 +12,20 @@
   <div ng-controller="PostCtrl">
     <div class="container">
       <div class="header">
-        /r/
-        <input type="text" ng-model="subreddit" ng-keypress="sr_keypress($event)" />
-        category:
-        <select ng-model="queryOption" ng-options="o.name for o in queryOptions">
-        </select>
-        sort by:
-        <select ng-model="sortOption" ng-options="o.name for o in sortOptions">
-        </select>
-        total viewed:
-        {{seenUrls.length}}
+        <div id="subreddit">
+          /r/&nbsp;<input type="text" ng-model="subreddit" ng-keypress="sr_keypress($event)" />
+          <img ng-show="isLoading" src="img/ajax-loader.gif">
+          <br />
+        </div>
+        <div id="settings">
+          category:
+          <select ng-model="queryOption" ng-options="o.name for o in queryOptions">
+          </select>
+          sort by:
+          <select ng-model="sortOption" ng-options="o.name for o in sortOptions">
+          </select>
+          seen: {{seenUrls.length}}
+        </div>
         <br />
       </div>
 
