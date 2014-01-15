@@ -5,3 +5,8 @@ a:link {
 .header {
   font-size: 26pt;
 }
+
+.pic {
+  max-width: 640px;
+  max-height: 480px;
+}

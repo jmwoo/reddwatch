@@ -40,7 +40,9 @@
                 </button>
                 <br />
                 <div ng-show="post.isImgToggled">
-                  <img ng-src="{{post.url}}">
+                  <a ng-href="{{post.url}}">
+                    <img ng-src="{{post.url}}" class="pic">
+                  </a>
                 </div>
               </div>
               <hr />
