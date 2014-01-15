@@ -5,6 +5,7 @@ function PostCtrl($scope, $http, $sce) {
   var validImgExts = ['jpg', 'jpeg', 'jpg?1', 'png', 'gif'];
   $scope.seenUrls = [];
   $scope.posts = [];
+  var queryIntervalSecs = 60;
   var interval;
   $scope.queryOptions = [{
     "name": "hot"
@@ -115,10 +116,9 @@ function PostCtrl($scope, $http, $sce) {
       get(url, true);
       clearInterval(interval);
 
-      // begin requesting every 30 seconds
       interval = setInterval(function () {
         get(url, true);
-      }, 60 * 1000);
+      }, queryIntervalSecs * 1000);
     }
   };
 }
