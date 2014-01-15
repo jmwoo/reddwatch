@@ -6,7 +6,7 @@ function PostCtrl($scope, $http, $sce) {
   $scope.seenUrls = [];
   $scope.posts = [];
   $scope.isLoading = false;
-  var queryIntervalSecs = 60;
+  var queryIntervalSecs = 15;
   var interval;
   $scope.queryOptions = [
      {'name': 'hot'}
@@ -30,10 +30,10 @@ function PostCtrl($scope, $http, $sce) {
         $scope.isLoading = false;
         data.data.children.forEach(function (child) {
           var post = child.data;
-          post = readyPost(post);
           var postIndex = _.findIndex($scope.posts, {
             'url': post.url
           });
+          post = readyPost(post, postIndex);
           if (postIndex >= 0) {
             $scope.posts[postIndex] = post;
           } else if (isNew && !_.contains($scope.seenUrls, post.url)) {
@@ -74,7 +74,7 @@ function PostCtrl($scope, $http, $sce) {
     post.isImgToggled = !post.isImgToggled;
   };
 
-  var readyPost = function (post) {
+  var readyPost = function (post, postIndex) {
     // add a date and time from the epoch
     var amoment = moment.unix(post.created_utc);
     post.date = amoment.format('YYYY-MM-DD');
@@ -95,8 +95,14 @@ function PostCtrl($scope, $http, $sce) {
     }
 
     post.isImg = isImg(post);
-    post.isImgToggled = false;
-    post.isTxtToggled = false;
+
+    if (postIndex >= 0) {
+      post.isImgToggled = $scope.posts[postIndex].isImgToggled;
+      post.isTxtToggled = $scope.posts[postIndex].isTxtToggled;
+    } else {
+      post.isTxtToggled = false;
+      post.isImgToggled = false;
+    }
 
     return post;
   };
