@@ -11,9 +11,10 @@
 <body>
   <div ng-controller="PostCtrl">
     <div class="container">
-      <div class="header">
+      <div id="header">
         <div id="subreddit">
-          /r/&nbsp;<input type="text" ng-model="subreddit" ng-keypress="sr_keypress($event)" />
+          /r/&nbsp;
+          <input type="text" ng-model="subreddit" ng-keypress="sr_keypress($event)" />
           <img ng-show="isLoading" src="img/ajax-loader.gif">
           <br />
         </div>
@@ -24,12 +25,11 @@
           sort by:
           <select ng-model="sortOption" ng-options="o.name for o in sortOptions">
           </select>
-          seen: {{seenUrls.length}}
         </div>
         <br />
       </div>
 
-      <ol reversed>
+      <ol>
         <div ng-repeat="post in posts | orderBy:sortOption.value:true">
           <li>
             <div id="post">
@@ -70,6 +70,11 @@
           </li>
         </div>
       </ol>
+
+      <div id="footer">
+        current: {{posts.length}}
+        <br />total: {{seenUrls.length}}
+      </div>
     </div>
   </div>
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.6/angular.min.js"></script>
