@@ -4,7 +4,6 @@
 <head>
   <title>reddwatch</title>
   <link rel="stylesheet" type="text/css" href="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.3/css/bootstrap.min.css">
-  <link rel="stylesheet" type="text/css" href="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.3/css/bootstrap-theme.min.css">
   <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 
@@ -50,7 +49,7 @@
                   <span ng-class="{true: 'glyphicon glyphicon-minus-sign', false: 'glyphicon glyphicon-font'}[post.isTxtToggled]"></span>
                 </button>
                 <div ng-show="post.isTxtToggled">
-                  <div ng-bind-html="post.trustedHtml"></div>
+                  <div ng-bind-html="post.trustedHtml" class="img-thumbnail"></div>
                 </div>
               </div>
 
