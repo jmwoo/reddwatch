@@ -1,7 +1,7 @@
 function PostCtrl($scope, $http, $sce) {
   $scope.subreddit = '';
   var totalPosts = 0;
-  var numRequests = 0;
+  $scope.numRequests = 0;
   var validImgExts = ['jpg', 'jpeg', 'jpg?1', 'png', 'gif'];
   $scope.seenUrls = [];
   $scope.posts = [];
@@ -23,7 +23,7 @@ function PostCtrl($scope, $http, $sce) {
 
   var get = function (url, isNew) {
     $scope.isLoading = true;
-    numRequests += 1;
+    $scope.numRequests += 1;
     console.log('querying ' + url + ' at ' + moment().format('YYYY-MM-DD h:mm:ss a'));
     $http.get(url)
       .success(function (data) {
@@ -127,7 +127,7 @@ function PostCtrl($scope, $http, $sce) {
     console.log('resetting');
     $scope.posts = [];
     totalPosts = 0;
-    numRequests = 0;
+    $scope.numRequests = 0;
     $scope.seenUrls = [];
   };
 
