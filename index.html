@@ -25,11 +25,13 @@
           sort by:
           <select ng-model="sortOption" ng-options="o.name for o in sortOptions">
           </select>
+          <br />
+          current: {{posts.length}}, total: {{seenUrls.length}}
+          <hr />
         </div>
-        <br />
       </div>
 
-      <ol>
+      <ol reversed>
         <div ng-repeat="post in posts | orderBy:sortOption.value:true">
           <li>
             <div id="post">
@@ -72,8 +74,6 @@
       </ol>
 
       <div id="footer">
-        current: {{posts.length}}
-        <br />total: {{seenUrls.length}}
       </div>
     </div>
   </div>
