@@ -3,4 +3,4 @@ reddwatch
 
 This is a tool for getting reddit posts pushed to your browser moments after they are submitted.
 
-It's built entirely client side with angular.js and no manual DOM manipulation.
+It's built entirely client side with angular.js and has no manual DOM manipulation.
