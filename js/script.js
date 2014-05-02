@@ -9,15 +9,30 @@ function PostCtrl($scope, $http, $sce) {
   var queryIntervalSecs = 60;
   var interval;
   $scope.queryOptions = [
-     {'name': 'hot'}
-    ,{'name': 'new'}
-    ,{'name': 'top'}
+    {
+      'name': 'hot'
+    }
+    , {
+      'name': 'new'
+    }
+    , {
+      'name': 'top'
+    }
   ];
   $scope.queryOption = $scope.queryOptions[0];
   $scope.sortOptions = [
-     {'name': 'time', 'value': 'created_utc'}
-    ,{'name': 'score', 'value': 'score'}
-    ,{'name': 'comments', 'value': 'num_comments'}
+    {
+      'name': 'time',
+      'value': 'created_utc'
+    }
+    , {
+      'name': 'score',
+      'value': 'score'
+    }
+    , {
+      'name': 'comments',
+      'value': 'num_comments'
+    }
   ];
   $scope.sortOption = $scope.sortOptions[0];
 
@@ -66,7 +81,7 @@ function PostCtrl($scope, $http, $sce) {
     });
   };
 
-  $scope.toggleTxt = function(ev, post) {
+  $scope.toggleTxt = function (ev, post) {
     post.isTxtToggled = !post.isTxtToggled;
   };
 
@@ -118,9 +133,23 @@ function PostCtrl($scope, $http, $sce) {
   var isImg = function (post) {
     var urlsplit = post.url.split('.');
     var urlext = urlsplit[urlsplit.length - 1].toLowerCase();
-    return _.any(validImgExts, function (ext) {
+    var hasImgExt = _.any(validImgExts, function (ext) {
       return ext === urlext;
     });
+
+    if (!hasImgExt) {
+      urlsplit = post.url.split('/');
+      var isImgur = _.any(urlsplit, function (part) {
+        return part.indexOf('imgur.com') >= 0;
+      });
+
+      if (isImgur) {
+        var newUrl = post.url = 'http://i.imgur.com/' + urlsplit[urlsplit.length - 1] + '.jpg';
+        post.url = newUrl;
+      }
+    }
+
+    return hasImgExt || isImgur;
   }
 
   var reset = function () {
